@@ -1,0 +1,122 @@
+[
+  {
+    "name": "Teleminora Stadium",
+    "image": "https://i.ibb.co/3RSgDTN/image.png",
+    "address": "Tashkent, Yunusobod tuman, Iftihor Mahalla",
+    "pricePerHour": 200000,
+    "longitude": 41.346828,
+    "latitude": 69.285852,
+    "isAvailable": true,
+    "id": 1
+  },
+  {
+    "name": "Qoratosh Polya",
+    "image": "https://i.ibb.co/khh3NYM/image.png",
+    "address": "Tashkent, Furqat ko'cha, 10",
+    "pricePerHour": 220000,
+    "longitude": 41.3185105116,
+    "latitude": 69.2411752324,
+    "isAvailable": true,
+    "id": 2
+  },
+  {
+    "name": "Uchtepa, 26-KV, Stadium",
+    "image": "https://i.ibb.co/FnCnvfV/image.png",
+    "address": "Uchtepa, Nalogoviy, Al-Naml masjid",
+    "pricePerHour": 200000,
+    "longitude": 41.277498,
+    "latitude": 69.182504,
+    "isAvailable": false,
+    "id": 3
+  },
+  {
+    "name": "Askiya bozor, Tekstilni Institut",
+    "image": "https://i.ibb.co/b3MqNKR/image.png",
+    "address": "Toqimachilik instituti taraf, Askiya bozori orqasi",
+    "pricePerHour": 200000,
+    "longitude": 41.2840625,
+    "latitude": 69.2490625,
+    "isAvailable": false,
+    "id": 4
+  },
+  {
+    "name": "144-maktab, Yakkasaroy",
+    "image": "https://i.ibb.co/pzTMs1c/image.png",
+    "address": "Muqimiy ko'chasi yo'lni yuzida",
+    "pricePerHour": 175000,
+    "longitude": 41.2828125,
+    "latitude": 69.2370625,
+    "isAvailable": true,
+    "id": 5
+  },
+  {
+    "name": "O'zbek Film polya",
+    "image": "https://i.ibb.co/hsk107P/image.png",
+    "address": "O'zbek Film",
+    "pricePerHour": 225000,
+    "longitude": 41.2928095912,
+    "latitude": 69.2366953611,
+    "isAvailable": true,
+    "id": 6
+  },
+  {
+    "name": "Labzak 19-maktab",
+    "image": "https://i.ibb.co/wLxQKq0/image.png",
+    "address": "Labzak, 19-maktab",
+    "pricePerHour": 200000,
+    "longitude": 41.3273259749,
+    "latitude": 69.2575279812,
+    "isAvailable": false,
+    "id": 7
+  },
+  {
+    "name": "229-maktab stadion",
+    "image": "https://i.ibb.co/6Nv10yd/image.png",
+    "address": "Cho'pon Ota, jome masjidiga yaqin 229-maktab",
+    "pricePerHour": 200000,
+    "longitude": 41.2892941952,
+    "latitude": 69.1779653984,
+    "isAvailable": true,
+    "id": 8
+  },
+  {
+    "name": "237-maktab polya",
+    "image": "https://i.ibb.co/ZGYX18L/image.png",
+    "address": "Xalqaro aeroport yaqinida, 237-maktab",
+    "pricePerHour": 300000,
+    "longitude": 41.2599491104,
+    "latitude": 69.2557692526,
+    "isAvailable": true,
+    "id": 9
+  },
+  {
+    "name": "Novza stadion",
+    "image": "https://i.ibb.co/jftscLq/image.png",
+    "address": "Novza metro yonida",
+    "pricePerHour": 200000,
+    "longitude": 41.2869875,
+    "latitude": 69.2186094,
+    "isAvailable": true,
+    "id": 10
+  },
+  {
+    "name": "Quloqtepa k. Stadion",
+    "image": "https://i.ibb.co/586Qp3s/image.png",
+    "address": "Xalqaro aeroport yaqinida, 237-maktab",
+    "pricePerHour": 200000,
+    "longitude": 41.2599491104,
+    "latitude": 69.2557692526,
+    "isAvailable": true,
+    "id": 11
+  },
+  {
+    "name": "Chilonzor-20, 200-maktab",
+    "image": "https://i.ibb.co/R6fW0CN/image.png",
+    "address": "Katta qani ko'chasi 200-maktab",
+    "pricePerHour": 200000,
+    "longitude": 41.2599491104,
+    "latitude": 69.2557692526,
+    "isAvailable": true,
+    "id": 12
+  }
+]
