@@ -1,13 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:stadium_app_task/src/core/style/app_colors.dart';
-import 'package:stadium_app_task/src/feature/main/view/widgets/home_page_stadium_card_widgets.dart';
+import 'package:stadium_app_task/src/feature/main/view/pages/home_page_search.dart';
+import 'package:stadium_app_task/src/feature/main/view_model/home_vm.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends ConsumerStatefulWidget {
   const HomePage({super.key});
 
   @override
+  ConsumerState<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends ConsumerState<HomePage> with TickerProviderStateMixin {
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final ctr = ref.watch(homeVM);
     return DefaultTabController(
       length: 2,
       child: Scaffold(
@@ -29,6 +42,7 @@ class HomePage extends StatelessWidget {
                   child: Padding(
                     padding: REdgeInsets.all(2),
                     child: TabBar(
+                      onTap: (value) => ctr.tabChange(value),
                       indicatorSize: TabBarIndicatorSize.tab,
                       dividerColor: Colors.transparent,
                       indicator: BoxDecoration(
@@ -37,14 +51,50 @@ class HomePage extends StatelessWidget {
                       ),
                       labelColor: AppColors.c2AA64C,
                       unselectedLabelColor: AppColors.c181725,
-                      tabs: const [
-                        TabItem(
-                          title: 'Map',
-                          iconPath: "assets/svg/map.svg",
+                      tabs: [
+                        Tab(
+                          child: SizedBox(
+                            width: 165.w,
+                            height: 46.h,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Image.asset(
+                                  'assets/img/bookmark.png',
+                                  height: 16.h,
+                                  width: 16.w,
+                                  color: ctr.currextTabIndex == 0 ? Colors.green : Colors.black,
+                                ),
+                                8.horizontalSpace,
+                                Text(
+                                  'Map',
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ],
+                            ),
+                          ),
                         ),
-                        TabItem(
-                          title: 'List',
-                          iconPath: "assets/svg/list_check.svg",
+                        Tab(
+                          child: SizedBox(
+                            width: 165.w,
+                            height: 46.h,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Image.asset(
+                                  'assets/img/bookmark.png',
+                                  height: 16.h,
+                                  width: 16.w,
+                                  color: ctr.currextTabIndex == 1 ? Colors.green : Colors.black,
+                                ),
+                                8.horizontalSpace,
+                                Text(
+                                  'Map',
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ],
+                            ),
+                          ),
                         ),
                       ],
                     ),
@@ -54,57 +104,17 @@ class HomePage extends StatelessWidget {
             ),
           ),
         ),
-        body: TabBarView(
-          children: [
-            const Center(child: Text('Archived Page')),
-            SizedBox.expand(
-              child: ListView.separated(
-                padding: REdgeInsets.all(25),
-                itemBuilder: (_, i) {
-                  return HomePageStadiumCardWidgets();
-                },
-                separatorBuilder: (BuildContext context, int index) => 10.verticalSpace,
-                itemCount: 8,
+        body: ctr.currextTabIndex == 0
+            ? Container(
+                color: Colors.black,
+                height: double.infinity,
+                width: double.infinity,
+              )
+            : Container(
+                color: Colors.black,
+                height: double.infinity,
+                width: double.infinity,
               ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class TabItem extends StatelessWidget {
-  final String title;
-  final String iconPath;
-
-  const TabItem({
-    super.key,
-    required this.title,
-    required this.iconPath,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Tab(
-      child: SizedBox(
-        width: 165.w,
-        height: 46.h,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset(
-              'assets/img/bookmark.png',
-              height: 16.h,
-              width: 16.w,
-            ),
-            8.horizontalSpace,
-            Text(
-              title,
-              overflow: TextOverflow.ellipsis,
-            ),
-          ],
-        ),
       ),
     );
   }
