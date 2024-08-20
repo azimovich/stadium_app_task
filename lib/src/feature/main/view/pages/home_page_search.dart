@@ -9,25 +9,23 @@ class HomePageSearch extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Scaffold(
-      body: SizedBox.expand(
-        child: Consumer(
-          builder: (context, ref, _) {
-            final ctr = ref.watch(homeFetchData);
-            return ctr.when(
-              data: (date) => ListView.separated(
-                padding: REdgeInsets.all(25),
-                itemBuilder: (_, i) => HomePageSearchCardWidget(
-                  stadiumModel: ref.watch(homeVM).stadiumList[i],
-                ),
-                separatorBuilder: (_, i) => 10.verticalSpace,
-                itemCount: ref.watch(homeVM).stadiumList.length,
+    return SizedBox.expand(
+      child: Consumer(
+        builder: (context, ref, _) {
+          final ctr = ref.watch(homeFetchData);
+          return ctr.when(
+            data: (date) => ListView.separated(
+              padding: REdgeInsets.all(25),
+              itemBuilder: (_, i) => HomePageSearchCardWidget(
+                stadiumModel: ref.watch(homeVM).stadiumList[i],
               ),
-              error: (error, stackTrace) => Text("Error: $error"),
-              loading: () => const Center(child: CircularProgressIndicator()),
-            );
-          },
-        ),
+              separatorBuilder: (_, i) => 10.verticalSpace,
+              itemCount: ref.watch(homeVM).stadiumList.length,
+            ),
+            error: (error, stackTrace) => Text("Error: $error"),
+            loading: () => const Center(child: CircularProgressIndicator()),
+          );
+        },
       ),
     );
   }

@@ -20,7 +20,7 @@ class HomePageMapCardWidget extends StatelessWidget {
           Expanded(
             flex: 2,
             child: SizedBox(
-              height: 166.h,
+              height: 178.h,
               child: ClipRRect(
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(
@@ -31,7 +31,7 @@ class HomePageMapCardWidget extends StatelessWidget {
                 child: Image.network(
                   stadiumModel.image ?? 'https://i.ibb.co/khh3NYM/image.png',
                   fit: BoxFit.cover,
-                  height: 166.h,
+                  // height: 186.h,
                 ),
               ),
             ),
@@ -42,7 +42,7 @@ class HomePageMapCardWidget extends StatelessWidget {
               padding: REdgeInsets.all(16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Text(
                     stadiumModel.name ?? "Unknow",
@@ -75,14 +75,15 @@ class HomePageMapCardWidget extends StatelessWidget {
                       fontFamily: 'Gilroy-SemiBold',
                     ),
                   ),
-                  6.verticalSpace,
+                  // 6.verticalSpace,
                   MaterialButton(
                     height: 36.h,
-                    highlightElevation: 0,
                     elevation: 0,
+                    highlightElevation: 0,
                     minWidth: double.infinity,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.r)),
                     color: AppColors.c2AA64C,
+                    padding: EdgeInsets.zero,
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.r)),
                     onPressed: () {},
                     child: Text(
                       'Book now!',

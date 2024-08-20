@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:stadium_app_task/src/core/router/router_config.dart';
+import 'package:stadium_app_task/src/feature/main/view/pages/home_page_map.dart';
+import 'package:stadium_app_task/src/feature/main/view/pages/t.dart';
 import 'package:stadium_app_task/src/feature/setting/inherted_theme_notifair.dart';
 import 'package:stadium_app_task/src/feature/setting/theme_controller.dart';
 
@@ -14,10 +16,10 @@ class AppMaterialContext extends StatelessWidget {
       themeController: themeController,
       child: MaterialApp.router(
         routerConfig: RouteSystem.goRouter,
-        
         theme: InheritedThemeNotifier.maybeOf(context)?.theme,
         debugShowCheckedModeBanner: false,
       ),
+      // child: MaterialApp(home: CustomYandexMap(),),
     );
   }
 }

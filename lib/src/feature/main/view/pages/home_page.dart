@@ -1,7 +1,9 @@
+import 'package:enefty_icons/enefty_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:stadium_app_task/src/core/style/app_colors.dart';
+import 'package:stadium_app_task/src/feature/main/view/pages/home_page_map.dart';
 import 'package:stadium_app_task/src/feature/main/view/pages/home_page_search.dart';
 import 'package:stadium_app_task/src/feature/main/view_model/home_vm.dart';
 
@@ -15,12 +17,12 @@ class HomePage extends ConsumerStatefulWidget {
 class _HomePageState extends ConsumerState<HomePage> with TickerProviderStateMixin {
   @override
   void initState() {
+    ref.read(homeFetchData);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    final ctr = ref.watch(homeVM);
     return DefaultTabController(
       length: 2,
       child: Scaffold(
@@ -42,7 +44,7 @@ class _HomePageState extends ConsumerState<HomePage> with TickerProviderStateMix
                   child: Padding(
                     padding: REdgeInsets.all(2),
                     child: TabBar(
-                      onTap: (value) => ctr.tabChange(value),
+                      // onTap: (value) => ctr.tabChange(value),
                       indicatorSize: TabBarIndicatorSize.tab,
                       dividerColor: Colors.transparent,
                       indicator: BoxDecoration(
@@ -53,47 +55,27 @@ class _HomePageState extends ConsumerState<HomePage> with TickerProviderStateMix
                       unselectedLabelColor: AppColors.c181725,
                       tabs: [
                         Tab(
-                          child: SizedBox(
-                            width: 165.w,
-                            height: 46.h,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Image.asset(
-                                  'assets/img/bookmark.png',
-                                  height: 16.h,
-                                  width: 16.w,
-                                  color: ctr.currextTabIndex == 0 ? Colors.green : Colors.black,
-                                ),
-                                8.horizontalSpace,
-                                Text(
-                                  'Map',
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ],
-                            ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(EneftyIcons.map_outline),
+                              8.horizontalSpace,
+                              Text(
+                                'Map',
+                              ),
+                            ],
                           ),
                         ),
                         Tab(
-                          child: SizedBox(
-                            width: 165.w,
-                            height: 46.h,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Image.asset(
-                                  'assets/img/bookmark.png',
-                                  height: 16.h,
-                                  width: 16.w,
-                                  color: ctr.currextTabIndex == 1 ? Colors.green : Colors.black,
-                                ),
-                                8.horizontalSpace,
-                                Text(
-                                  'Map',
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ],
-                            ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(Icons.format_list_bulleted_outlined),
+                              8.horizontalSpace,
+                              Text(
+                                'List',
+                              ),
+                            ],
                           ),
                         ),
                       ],
@@ -104,17 +86,9 @@ class _HomePageState extends ConsumerState<HomePage> with TickerProviderStateMix
             ),
           ),
         ),
-        body: ctr.currextTabIndex == 0
-            ? Container(
-                color: Colors.black,
-                height: double.infinity,
-                width: double.infinity,
-              )
-            : Container(
-                color: Colors.black,
-                height: double.infinity,
-                width: double.infinity,
-              ),
+        body: TabBarView(
+          children: [HomePageMap(), HomePageSearch()],
+        ),
       ),
     );
   }

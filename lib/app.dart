@@ -14,7 +14,7 @@ class App extends StatelessWidget {
       minTextAdapt: true,
       splitScreenMode: true,
       builder: (context, _) => DevicePreview(
-        enabled: kDebugMode && true,
+        enabled: kDebugMode && false,
         builder: (context) => const AppMaterialContext(),
       ),
     );

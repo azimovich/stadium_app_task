@@ -33,7 +33,7 @@ class _MainPageState extends State<MainPage> {
           });
           nextBranch(currentIndex);
         },
-        
+        useLegacyColorScheme: false,
         selectedLabelStyle: TextStyle(fontWeight: FontWeight.w400, fontSize: 12.sp, fontFamily: 'Gilroy', color: AppColors.c2AA64C),
         unselectedLabelStyle: TextStyle(fontWeight: FontWeight.w400, fontSize: 12.sp, fontFamily: 'Gilroy', color: AppColors.c181725),
         elevation: 0,
