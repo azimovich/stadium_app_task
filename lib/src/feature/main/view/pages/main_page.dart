@@ -25,66 +25,69 @@ class _MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: widget.navigationShell,
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.white,
-        onTap: (value) {
-          setState(() {
-            currentIndex = value;
-          });
-          nextBranch(currentIndex);
-        },
-        useLegacyColorScheme: false,
-        selectedLabelStyle: TextStyle(fontWeight: FontWeight.w400, fontSize: 12.sp, fontFamily: 'Gilroy', color: AppColors.c2AA64C),
-        unselectedLabelStyle: TextStyle(fontWeight: FontWeight.w400, fontSize: 12.sp, fontFamily: 'Gilroy', color: AppColors.c181725),
-        elevation: 0,
-        currentIndex: currentIndex,
-        items: [
-          BottomNavigationBarItem(
-            label: 'Explore',
-            icon: Image.asset(
-              'assets/img/stadium.png',
-              height: 20,
-              width: 25,
-              color: AppColors.c181725,
+      bottomNavigationBar: ClipRRect(
+        borderRadius: BorderRadius.only(topLeft: Radius.circular(15.r), topRight: Radius.circular(15.r)),
+        child: BottomNavigationBar(
+          backgroundColor: Colors.white,
+          onTap: (value) {
+            setState(() {
+              currentIndex = value;
+            });
+            nextBranch(currentIndex);
+          },
+          useLegacyColorScheme: false,
+          selectedLabelStyle: TextStyle(fontWeight: FontWeight.w400, fontSize: 12.sp, fontFamily: 'Gilroy', color: AppColors.c2AA64C),
+          unselectedLabelStyle: TextStyle(fontWeight: FontWeight.w400, fontSize: 12.sp, fontFamily: 'Gilroy', color: AppColors.c181725),
+          elevation: 0,
+          currentIndex: currentIndex,
+          items: [
+            BottomNavigationBarItem(
+              label: 'Explore',
+              icon: Image.asset(
+                'assets/img/stadium.png',
+                height: 20,
+                width: 25,
+                color: AppColors.c181725,
+              ),
+              activeIcon: Image.asset(
+                'assets/img/stadium.png',
+                height: 20,
+                width: 25,
+                color: AppColors.c2AA64C,
+              ),
             ),
-            activeIcon: Image.asset(
-              'assets/img/stadium.png',
-              height: 20,
-              width: 25,
-              color: AppColors.c2AA64C,
+            BottomNavigationBarItem(
+              label: 'Favourite',
+              icon: Image.asset(
+                'assets/img/bookmark.png',
+                height: 20,
+                width: 23,
+                color: AppColors.c181725,
+              ),
+              activeIcon: Image.asset(
+                'assets/img/bookmark.png',
+                height: 20,
+                width: 23,
+                color: AppColors.c2AA64C,
+              ),
             ),
-          ),
-          BottomNavigationBarItem(
-            label: 'Favourite',
-            icon: Image.asset(
-              'assets/img/bookmark.png',
-              height: 20,
-              width: 23,
-              color: AppColors.c181725,
+            BottomNavigationBarItem(
+              label: 'Account',
+              icon: Image.asset(
+                'assets/img/profile.png',
+                height: 20,
+                width: 16,
+                color: AppColors.c181725,
+              ),
+              activeIcon: Image.asset(
+                'assets/img/profile.png',
+                height: 20,
+                width: 16,
+                color: AppColors.c2AA64C,
+              ),
             ),
-            activeIcon: Image.asset(
-              'assets/img/bookmark.png',
-              height: 20,
-              width: 23,
-              color: AppColors.c2AA64C,
-            ),
-          ),
-          BottomNavigationBarItem(
-            label: 'Account',
-            icon: Image.asset(
-              'assets/img/profile.png',
-              height: 20,
-              width: 16,
-              color: AppColors.c181725,
-            ),
-            activeIcon: Image.asset(
-              'assets/img/profile.png',
-              height: 20,
-              width: 16,
-              color: AppColors.c2AA64C,
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

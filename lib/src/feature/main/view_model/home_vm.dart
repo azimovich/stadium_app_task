@@ -1,4 +1,4 @@
-import 'dart:developer';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -17,9 +17,10 @@ final homeFetchData = FutureProvider((ref) async {
 class HomeVm with ChangeNotifier {
   // HomePageSearch Varibales
   bool isLoading = true;
-  bool isFloatactionButtonVisibility = true;
   int currextTabIndex = 0;
+  StadiumModel stadiumModel = StadiumModel();
   List<StadiumModel> stadiumList = [];
+  bool isFloatactionButtonVisibility = true;
   final AppRepositoryImpl _appRepositoryImpl = AppRepositoryImpl();
 
   // HomePageMap Varibles
@@ -76,7 +77,6 @@ class HomeVm with ChangeNotifier {
   /// User location aniqlaydigan method
   void findMe() {
     if (isLoading) {
-      // Handle case where position is not yet available
       return;
     }
     yandexMapController.moveCamera(
@@ -103,6 +103,7 @@ class HomeVm with ChangeNotifier {
   }) {
     PlacemarkIcon placemarkIcon = PlacemarkIcon.single(
       PlacemarkIconStyle(
+        scale: 1.5,
         anchor: const Offset(0, 0),
         isFlat: false,
         rotationType: RotationType.noRotation,
@@ -125,14 +126,50 @@ class HomeVm with ChangeNotifier {
     notifyListeners();
   }
 
+  // agar project ishlamay qolsa mapObjectList, stadiumList va closeFloatingActionButton oldindan ctr qoy
+
+  // Method to handle map tap and check proximity to placemarks
+  void handleMapTap(Point tappedPoint) {
+    const double maxDistance = 30; // Maximum tap distance in meters for placemarks
+
+    for (var placemark in mapObjectList.whereType<PlacemarkMapObject>()) {
+      final double distance = calculateDistance(tappedPoint, placemark.point);
+      if (distance <= maxDistance) {
+        for (var element in stadiumList) {
+          if (element.latitude == placemark.point.longitude) {
+            stadiumModel = element;
+            notifyListeners();
+            closeFloatingActionButton();
+            break;
+          }
+        }
+        break;
+      }
+    }
+  }
+
+  // Utility method to calculate the distance between two points
+  double calculateDistance(Point p1, Point p2) {
+    const double earthRadius = 6371000; // Radius of Earth in meters
+    final double lat1 = p1.latitude * pi / 180;
+    final double lon1 = p1.longitude * pi / 180;
+    final double lat2 = p2.latitude * pi / 180;
+    final double lon2 = p2.longitude * pi / 180;
+
+    final double dlat = lat2 - lat1;
+    final double dlon = lon2 - lon1;
+
+    final double a = sin(dlat / 2) * sin(dlat / 2) + cos(lat1) * cos(lat2) * sin(dlon / 2) * sin(dlon / 2);
+    final double c = 2 * atan2(sqrt(a), sqrt(1 - a));
+
+    return earthRadius * c; // Distance in meters
+  }
+
   void initial() {
     getStadiumList().then((_) {
       determinePosition().then((value) {
         // Mapga Stadionlarni joylashgan joyini korsatish
         for (var element in stadiumList) {
-          log("lon: ${element.longitude.toString()}");
-          log("lan: ${element.latitude.toString()}");
-          log('');
           putLabel(
             lan: element.longitude ?? 0,
             lon: element.latitude ?? 0,
@@ -152,12 +189,12 @@ class HomeVm with ChangeNotifier {
     });
   }
 
-  void onMapTap() {
+  void closeFloatingActionButton() {
     isFloatactionButtonVisibility = !isFloatactionButtonVisibility;
     notifyListeners();
   }
 
-  void tabChange(int value) {
+  void changeTab(int value) {
     currextTabIndex = value;
     notifyListeners();
   }

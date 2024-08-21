@@ -1,7 +1,7 @@
-import 'package:enefty_icons/enefty_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:stadium_app_task/src/core/style/app_colors.dart';
 import 'package:stadium_app_task/src/feature/main/view/pages/home_page_map.dart';
 import 'package:stadium_app_task/src/feature/main/view/pages/home_page_search.dart';
@@ -14,7 +14,7 @@ class HomePage extends ConsumerStatefulWidget {
   ConsumerState<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends ConsumerState<HomePage> with TickerProviderStateMixin {
+class _HomePageState extends ConsumerState<HomePage> {
   @override
   void initState() {
     ref.read(homeFetchData);
@@ -44,7 +44,9 @@ class _HomePageState extends ConsumerState<HomePage> with TickerProviderStateMix
                   child: Padding(
                     padding: REdgeInsets.all(2),
                     child: TabBar(
-                      // onTap: (value) => ctr.tabChange(value),
+                      onTap: (value) {
+                        ref.read(homeVM).changeTab(value);
+                      },
                       indicatorSize: TabBarIndicatorSize.tab,
                       dividerColor: Colors.transparent,
                       indicator: BoxDecoration(
@@ -53,14 +55,17 @@ class _HomePageState extends ConsumerState<HomePage> with TickerProviderStateMix
                       ),
                       labelColor: AppColors.c2AA64C,
                       unselectedLabelColor: AppColors.c181725,
+                      labelStyle: const TextStyle(fontFamily: 'Gilroy-SemiBold'),
                       tabs: [
                         Tab(
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Icon(EneftyIcons.map_outline),
+                              ref.watch(homeVM).currextTabIndex == 0
+                                  ? SvgPicture.asset('assets/svg/active_map.svg')
+                                  : SvgPicture.asset('assets/svg/map.svg'),
                               8.horizontalSpace,
-                              Text(
+                              const Text(
                                 'Map',
                               ),
                             ],
@@ -70,9 +75,11 @@ class _HomePageState extends ConsumerState<HomePage> with TickerProviderStateMix
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Icon(Icons.format_list_bulleted_outlined),
+                              ref.watch(homeVM).currextTabIndex == 1
+                                  ? SvgPicture.asset('assets/svg/active_list_check.svg')
+                                  : SvgPicture.asset('assets/svg/list_check.svg'),
                               8.horizontalSpace,
-                              Text(
+                              const Text(
                                 'List',
                               ),
                             ],
@@ -86,7 +93,8 @@ class _HomePageState extends ConsumerState<HomePage> with TickerProviderStateMix
             ),
           ),
         ),
-        body: TabBarView(
+        body: const TabBarView(
+          physics: NeverScrollableScrollPhysics(),
           children: [HomePageMap(), HomePageSearch()],
         ),
       ),

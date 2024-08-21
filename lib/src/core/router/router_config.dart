@@ -3,7 +3,6 @@ import 'package:go_router/go_router.dart';
 import 'package:stadium_app_task/src/core/router/app_route_name.dart';
 import 'package:stadium_app_task/src/feature/bookmark/bookmark.dart';
 import 'package:stadium_app_task/src/feature/main/view/pages/home_page.dart';
-import 'package:stadium_app_task/src/feature/main/view/pages/home_page_map.dart';
 import 'package:stadium_app_task/src/feature/main/view/pages/main_page.dart';
 import 'package:stadium_app_task/src/feature/profile/profile_page.dart';
 
@@ -18,11 +17,6 @@ final class RouteSystem {
     debugLogDiagnostics: true,
     navigatorKey: _rootNavigatorKey,
     routes: [
-      /// Splash
-      // GoRoute(
-      //   path: AppRouteName.splash,
-      //   builder: (context, state) => const SplashPage(),
-      // ),
 
       /// Main SHell
       StatefulShellRoute.indexedStack(
@@ -38,7 +32,7 @@ final class RouteSystem {
             routes: <RouteBase>[
               GoRoute(
                 path: AppRouteName.home,
-                builder: (context, state) => const HomePageMap(),
+                builder: (context, state) => const HomePage(),
               ),
             ],
           ),
