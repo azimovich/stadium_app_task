@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:stadium_app_task/src/core/widget/shimmer_card_widget.dart';
 import 'package:stadium_app_task/src/feature/main/view/widgets/home_page_search_card_widget.dart';
 import 'package:stadium_app_task/src/feature/main/view_model/home_vm.dart';
 
@@ -23,7 +24,12 @@ class HomePageSearch extends ConsumerWidget {
               itemCount: ref.watch(homeVM).stadiumList.length,
             ),
             error: (error, stackTrace) => Text("Error: $error"),
-            loading: () => const Center(child: CircularProgressIndicator()),
+            loading: () => ListView.separated(
+              padding: REdgeInsets.all(25),
+              itemBuilder: (_, i) => const ShimmerCardWidget(),
+              separatorBuilder: (_, i) => 10.verticalSpace,
+              itemCount: 10,
+            ),
           );
         },
       ),

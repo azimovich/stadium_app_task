@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:go_router/go_router.dart';
 import 'package:stadium_app_task/src/data/model/stadium_model.dart';
 import 'package:stadium_app_task/src/data/repository/app_repository_impl.dart';
 import 'package:yandex_mapkit/yandex_mapkit.dart';
@@ -11,46 +12,130 @@ final homeVM = ChangeNotifierProvider((ref) => HomeVm());
 
 // Fechting data
 final homeFetchData = FutureProvider((ref) async {
-  ref.read(homeVM).initial();
+  // ref.read(homeVM).initial();
+  ref.read(homeVM).getStadiumList();
 });
 
 class HomeVm with ChangeNotifier {
   // HomePageSearch Varibales
-  bool isLoading = true;
+  bool isLoading = false;
   int currextTabIndex = 0;
-  StadiumModel stadiumModel = StadiumModel();
   List<StadiumModel> stadiumList = [];
-  bool isFloatactionButtonVisibility = true;
   final AppRepositoryImpl _appRepositoryImpl = AppRepositoryImpl();
 
   // HomePageMap Varibles
   late Position myPosition;
   List<MapObject> mapObjectList = [];
+  bool isFloatactionButtonVisibility = true;
+  StadiumModel stadiumModel = StadiumModel();
   late YandexMapController yandexMapController;
   late AnimationController animationController;
   late Animation<double> animation;
 
+  // Uzbekistan Latitude and longitude
+  final double uzbLatitude = 41.311081;
+  final double uzbLongitude = 69.240562;
+
   /// Methods
+
+  void initial() {
+    getStadiumList().then((_) {});
+  }
 
   /// Get Satdium List Method
   Future<void> getStadiumList() async {
     stadiumList = await _appRepositoryImpl.getStadiumList() ?? [];
-    notifyListeners();
+    for (var element in stadiumList) {
+      putLabel(
+        lan: element.longitude ?? 0,
+        lon: element.latitude ?? 0,
+        id: element.latitude.toString(),
+        imgPath: "assets/img/point.png",
+      );
+    }
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      notifyListeners();
+    });
   }
 
   /// Method that works when the map is first created
   void onMapCreated(YandexMapController controller) {
     yandexMapController = controller;
+
     yandexMapController.moveCamera(
       CameraUpdate.newCameraPosition(
         CameraPosition(
-          target: Point(latitude: myPosition.latitude, longitude: myPosition.longitude),
-          zoom: 15,
-          tilt: 10,
-          azimuth: 0,
+          target: Point(
+            latitude: uzbLatitude,
+            longitude: uzbLongitude,
+          ),
+          zoom: 11,
         ),
       ),
     );
+
+    // yandexMapController.moveCamera(
+    //   CameraUpdate.newCameraPosition(
+    //     CameraPosition(
+    //       target: Point(latitude: myPosition.latitude, longitude: myPosition.longitude),
+    //       zoom: 15,
+    //       tilt: 10,
+    //       azimuth: 0,
+    //     ),
+    //   ),
+    // );
+  }
+
+  /// Method that determines user location
+  Future<void> findMe() async {
+    if (isLoading) {
+      return;
+    }
+
+    determinePosition().then((_) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        yandexMapController.moveCamera(
+          CameraUpdate.newCameraPosition(
+            CameraPosition(
+              target: Point(
+                latitude: myPosition.latitude,
+                longitude: myPosition.longitude,
+              ),
+              zoom: 19,
+              tilt: 10,
+              azimuth: 40,
+            ),
+          ),
+          animation: const MapAnimation(type: MapAnimationType.smooth, duration: 2),
+        );
+        notifyListeners();
+      });
+    });
+  }
+
+  /// go live
+  Future<void> goLive() async {
+    Geolocator.getPositionStream(
+      locationSettings: const LocationSettings(
+          // distanceFilter: 5,
+          // timeLimit: Duration(seconds: 5)
+          ),
+    ).listen((event) {
+      yandexMapController.moveCamera(
+        CameraUpdate.newCameraPosition(
+          CameraPosition(
+            target: Point(latitude: event.latitude, longitude: event.longitude),
+            zoom: 20,
+          ),
+        ),
+        animation: const MapAnimation(type: MapAnimationType.smooth),
+      );
+      // putLabel(lan: event.latitude, lon: event.longitude, id: event.longitude.toString());
+      mapObjectList.removeRange(1, mapObjectList.length);
+      // setState(() {});
+      debugPrint(event.latitude.toString());
+      debugPrint(event.longitude.toString());
+    });
   }
 
   /// A method that returns location after determining whether location is allowed in the application
@@ -63,7 +148,6 @@ class HomeVm with ChangeNotifier {
       return Future.error('Location services are disabled.');
     }
 
-    
     permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
@@ -78,29 +162,8 @@ class HomeVm with ChangeNotifier {
 
     myPosition = await Geolocator.getCurrentPosition();
 
-    isLoading = false;
     notifyListeners();
     return myPosition;
-  }
-
-  /// Method that determines user location
-  void findMe() {
-    if (isLoading) {
-      return;
-    }
-    yandexMapController.moveCamera(
-        CameraUpdate.newCameraPosition(
-          CameraPosition(
-            target: Point(
-              latitude: myPosition.latitude,
-              longitude: myPosition.longitude,
-            ),
-            zoom: 19,
-            tilt: 10,
-            azimuth: 40,
-          ),
-        ),
-        animation: const MapAnimation(type: MapAnimationType.smooth, duration: 2));
   }
 
   /// A method that places a PlacemarkIcon on the map
@@ -186,28 +249,6 @@ class HomeVm with ChangeNotifier {
     animationController.forward();
   }
 
-  void initial() {
-    getStadiumList().then((_) {
-      determinePosition().then((value) {
-        for (var element in stadiumList) {
-          putLabel(
-            lan: element.longitude ?? 0,
-            lon: element.latitude ?? 0,
-            id: element.latitude.toString(),
-            imgPath: "assets/img/point.png",
-          );
-        }
-
-        putLabel(
-          lan: myPosition.latitude,
-          lon: myPosition.longitude,
-          id: myPosition.latitude.toString(),
-          imgPath: "assets/img/dot.png",
-        );
-      });
-    });
-  }
-
   void closeFloatingActionButton() {
     isFloatactionButtonVisibility = !isFloatactionButtonVisibility;
     notifyListeners();
@@ -216,5 +257,42 @@ class HomeVm with ChangeNotifier {
   void changeTab(int value) {
     currextTabIndex = value;
     notifyListeners();
+  }
+
+  void showLocationSettingsDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: const Text("To continue, enable geolocation on your device, which uses Google's location service"),
+          actions: [
+            TextButton(
+              onPressed: () => context.pop(),
+              child: const Text(
+                'No Thanks',
+                style: TextStyle(
+                  fontFamily: 'Gilroy-SemiBold',
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+            ),
+            TextButton(
+              onPressed: () async {
+                // open device location setting
+                await Geolocator.openLocationSettings();
+                context.pop();
+              },
+              child: const Text(
+                'OK',
+                style: TextStyle(
+                  fontFamily: 'Gilroy-Regular',
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
   }
 }

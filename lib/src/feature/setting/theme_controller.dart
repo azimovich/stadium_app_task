@@ -2,34 +2,29 @@ import 'dart:developer';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../core/style/app_theme.dart';
 
 const String _spThemeKey = 'is_light_theme';
 
-
-final theme = ChangeNotifierProvider((ref) => ThemeController());
-
-
 class ThemeController with ChangeNotifier {
   ThemeController() : _isLight = PlatformDispatcher.instance.platformBrightness != Brightness.dark {
     SharedPreferences.getInstance().then<void>(
-          (sp) {
+      (sp) {
         final theme = sp.getBool(_spThemeKey);
         if (theme != null && theme != isLight) {
           _isLight = theme;
           notifyListeners();
         }
       },
-      onError: (e){
-            log(e);
+      onError: (e) {
+        log(e);
       },
     );
   }
 
-  ThemeData get theme => isLight ? AppThemes.light() : AppThemes.dark();
+  ThemeData get theme => isLight ? AppTheme.light() : AppTheme.dark();
 
   bool get isLight => _isLight;
 
@@ -40,10 +35,10 @@ class ThemeController with ChangeNotifier {
   void switchTheme() {
     _isLight = !_isLight;
     SharedPreferences.getInstance().then<void>(
-          (sp) {
+      (sp) {
         sp.setBool(_spThemeKey, _isLight);
       },
-      onError: (e){
+      onError: (e) {
         log(e);
       },
     );

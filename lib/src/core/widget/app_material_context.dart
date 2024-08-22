@@ -9,14 +9,14 @@ class AppMaterialContext extends StatelessWidget {
   const AppMaterialContext({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return InheritedThemeNotifier(
-      themeController: themeController,
-      child: MaterialApp.router(
-        routerConfig: RouteSystem.goRouter,
-        theme: InheritedThemeNotifier.maybeOf(context)?.theme,
-        debugShowCheckedModeBanner: false,
-      ),
-    );
-  }
+  Widget build(BuildContext context) => InheritedThemeNotifier(
+        themeController: themeController,
+        child: Builder(builder: (context) {
+          return MaterialApp.router(
+            routerConfig: RouteSystem.goRouter,
+            theme: InheritedThemeNotifier.maybeOf(context)?.theme,
+            debugShowCheckedModeBanner: false,
+          );
+        }),
+      );
 }

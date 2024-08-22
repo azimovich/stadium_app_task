@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:stadium_app_task/setup.dart';
 import 'package:stadium_app_task/src/core/style/app_colors.dart';
 import 'package:stadium_app_task/src/core/widget/app_material_context.dart';
 import 'package:stadium_app_task/src/feature/main/view/widgets/home_page_map_card_widget.dart';
@@ -44,7 +45,7 @@ class _HomePageMapState extends ConsumerState<HomePageMap> with SingleTickerProv
                       ctr.closeFloatingActionButton();
                     }
                   },
-                  nightModeEnabled: themeController.isDark,
+                  nightModeEnabled: !themeController.isLight,
                   mapObjects: ctr.mapObjectList,
                   onMapCreated: ctr.onMapCreated,
                 ),
@@ -70,10 +71,17 @@ class _HomePageMapState extends ConsumerState<HomePageMap> with SingleTickerProv
           ? ScaleTransition(
               scale: ctr.animation,
               child: FloatingActionButton(
-                backgroundColor: themeController.theme.colorScheme.primary,
+                // backgroundColor: themeController.theme.colorScheme.primary,
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(38)),
-                onPressed: () {
-                  ref.read(homeVM).findMe();
+                onPressed: () async {
+                  // check location is avilable
+                  if (await checkLocationServiceEnabled()) {
+                    // if device location is on use findMe method
+                    await ref.read(homeVM).findMe();
+                  } else {
+                    // if device location is off , ask the user to enable location
+                    ref.read(homeVM).showLocationSettingsDialog(context);
+                  }
                 },
                 child: SvgPicture.asset('assets/svg/gps.svg'),
               ),

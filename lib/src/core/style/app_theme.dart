@@ -1,50 +1,46 @@
-import "package:flutter/foundation.dart";
-import "package:flutter/material.dart";
-import "package:stadium_app_task/src/core/style/color_scheme.dart";
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 
-import "app_colors.dart";
+import 'color_scheme.dart';
 
 @immutable
-final class AppThemes {
+final class AppTheme {
   final ThemeMode mode;
   final ThemeData darkTheme;
-  final ThemeData lightTheme;
+  final ThemeData ligthTheme;
 
-  AppThemes({required this.mode})
+  AppTheme({required this.mode})
       : darkTheme = ThemeData(
           brightness: Brightness.dark,
           colorScheme: darkColorScheme,
-          scaffoldBackgroundColor: AppColors.black,
+          scaffoldBackgroundColor: Colors.black,
         ),
-        lightTheme = ThemeData(
+        ligthTheme = ThemeData(
           brightness: Brightness.light,
           colorScheme: lightColorScheme,
-          scaffoldBackgroundColor: AppColors.white,
+          scaffoldBackgroundColor: Colors.white,
         );
-
-  static ThemeData light() => ThemeData(
-        brightness: Brightness.light,
-        colorScheme: lightColorScheme,
-        scaffoldBackgroundColor: AppColors.white,
-        appBarTheme: const AppBarTheme(
-          backgroundColor: AppColors.white,
-        ),
-      );
 
   static ThemeData dark() => ThemeData(
         brightness: Brightness.dark,
         colorScheme: darkColorScheme,
-        scaffoldBackgroundColor: AppColors.black,
+        scaffoldBackgroundColor: Colors.black,
+      );
+
+  static ThemeData light() => ThemeData(
+        brightness: Brightness.light,
+        colorScheme: lightColorScheme,
+        scaffoldBackgroundColor: Colors.white,
       );
 
   ThemeData computeTheme() {
     switch (mode) {
       case ThemeMode.light:
-        return lightTheme;
+        return ligthTheme;
       case ThemeMode.dark:
         return darkTheme;
       case ThemeMode.system:
-        return PlatformDispatcher.instance.platformBrightness == Brightness.dark ? darkTheme : lightTheme;
+        return PlatformDispatcher.instance.platformBrightness == Brightness.dark ? darkTheme : ligthTheme;
     }
   }
 }

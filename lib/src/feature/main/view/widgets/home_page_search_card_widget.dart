@@ -153,3 +153,4 @@ class HomePageSearchCardWidget extends StatelessWidget {
     );
   }
 }
+
