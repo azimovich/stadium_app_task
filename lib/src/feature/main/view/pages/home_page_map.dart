@@ -16,31 +16,10 @@ class HomePageMap extends ConsumerStatefulWidget {
 }
 
 class _HomePageMapState extends ConsumerState<HomePageMap> with SingleTickerProviderStateMixin {
-  late AnimationController _animationController;
-  late Animation<double> _animation;
-
   @override
   void initState() {
     super.initState();
-
-    // Animation controller initialization
-    _animationController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 1500),
-    );
-
-    _animation = CurvedAnimation(
-      parent: _animationController,
-      curve: Curves.easeInOut,
-    );
-
-    _animationController.forward(); // Start the animation when FAB is shown
-  }
-
-  @override
-  void dispose() {
-    _animationController.dispose();
-    super.dispose();
+    ref.read(homeVM).initialAnimations(this);
   }
 
   @override
@@ -89,7 +68,7 @@ class _HomePageMapState extends ConsumerState<HomePageMap> with SingleTickerProv
             ),
       floatingActionButton: ctr.isFloatactionButtonVisibility
           ? ScaleTransition(
-              scale: _animation,
+              scale: ctr.animation,
               child: FloatingActionButton(
                 backgroundColor: themeController.theme.colorScheme.primary,
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(38)),

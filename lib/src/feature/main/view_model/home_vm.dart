@@ -27,8 +27,18 @@ class HomeVm with ChangeNotifier {
   late Position myPosition;
   List<MapObject> mapObjectList = [];
   late YandexMapController yandexMapController;
+  late AnimationController animationController;
+  late Animation<double> animation;
 
-  /// Map birinchi create bo'lganda ishlaydiga method
+  /// Methods
+
+  /// Get Satdium List Method
+  Future<void> getStadiumList() async {
+    stadiumList = await _appRepositoryImpl.getStadiumList() ?? [];
+    notifyListeners();
+  }
+
+  /// Method that works when the map is first created
   void onMapCreated(YandexMapController controller) {
     yandexMapController = controller;
     yandexMapController.moveCamera(
@@ -43,7 +53,7 @@ class HomeVm with ChangeNotifier {
     );
   }
 
-  /// Ilovada location ga ruxsat berilganligini aniqlab keyin location qaytradigan method
+  /// A method that returns location after determining whether location is allowed in the application
   Future<Position> determinePosition() async {
     bool serviceEnabled;
     LocationPermission permission;
@@ -53,6 +63,7 @@ class HomeVm with ChangeNotifier {
       return Future.error('Location services are disabled.');
     }
 
+    
     permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
@@ -67,14 +78,12 @@ class HomeVm with ChangeNotifier {
 
     myPosition = await Geolocator.getCurrentPosition();
 
-    // log(mapObjectList.toString());
-
     isLoading = false;
     notifyListeners();
     return myPosition;
   }
 
-  /// User location aniqlaydigan method
+  /// Method that determines user location
   void findMe() {
     if (isLoading) {
       return;
@@ -94,7 +103,7 @@ class HomeVm with ChangeNotifier {
         animation: const MapAnimation(type: MapAnimationType.smooth, duration: 2));
   }
 
-  /// Map dan belgilangan joyga pointer (belgi) qo'yib beradi
+  /// A method that places a PlacemarkIcon on the map
   void putLabel({
     required double lan,
     required double lon,
@@ -103,7 +112,7 @@ class HomeVm with ChangeNotifier {
   }) {
     PlacemarkIcon placemarkIcon = PlacemarkIcon.single(
       PlacemarkIconStyle(
-        scale: 1.5,
+        scale: 1,
         anchor: const Offset(0, 0),
         isFlat: false,
         rotationType: RotationType.noRotation,
@@ -125,8 +134,6 @@ class HomeVm with ChangeNotifier {
 
     notifyListeners();
   }
-
-  // agar project ishlamay qolsa mapObjectList, stadiumList va closeFloatingActionButton oldindan ctr qoy
 
   // Method to handle map tap and check proximity to placemarks
   void handleMapTap(Point tappedPoint) {
@@ -165,10 +172,23 @@ class HomeVm with ChangeNotifier {
     return earthRadius * c; // Distance in meters
   }
 
+  void initialAnimations(TickerProvider value) {
+    animationController = AnimationController(
+      vsync: value,
+      duration: const Duration(milliseconds: 1500),
+    );
+
+    animation = CurvedAnimation(
+      parent: animationController,
+      curve: Curves.easeInOut,
+    );
+
+    animationController.forward();
+  }
+
   void initial() {
     getStadiumList().then((_) {
       determinePosition().then((value) {
-        // Mapga Stadionlarni joylashgan joyini korsatish
         for (var element in stadiumList) {
           putLabel(
             lan: element.longitude ?? 0,
@@ -178,7 +198,6 @@ class HomeVm with ChangeNotifier {
           );
         }
 
-        // Mapda user turgan joylashuvni korsatish
         putLabel(
           lan: myPosition.latitude,
           lon: myPosition.longitude,
@@ -196,11 +215,6 @@ class HomeVm with ChangeNotifier {
 
   void changeTab(int value) {
     currextTabIndex = value;
-    notifyListeners();
-  }
-
-  Future<void> getStadiumList() async {
-    stadiumList = await _appRepositoryImpl.getStadiumList() ?? [];
     notifyListeners();
   }
 }

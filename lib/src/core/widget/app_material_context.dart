@@ -17,7 +17,6 @@ class AppMaterialContext extends StatelessWidget {
         theme: InheritedThemeNotifier.maybeOf(context)?.theme,
         debugShowCheckedModeBanner: false,
       ),
-      // child: MaterialApp(home: CustomYandexMap(),),
     );
   }
 }

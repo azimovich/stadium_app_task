@@ -4,6 +4,7 @@ import 'package:stadium_app_task/src/core/router/app_route_name.dart';
 import 'package:stadium_app_task/src/feature/bookmark/bookmark.dart';
 import 'package:stadium_app_task/src/feature/main/view/pages/home_page.dart';
 import 'package:stadium_app_task/src/feature/main/view/pages/main_page.dart';
+import 'package:stadium_app_task/src/feature/main/view/pages/t.dart';
 import 'package:stadium_app_task/src/feature/profile/profile_page.dart';
 
 final class RouteSystem {
@@ -32,7 +33,7 @@ final class RouteSystem {
             routes: <RouteBase>[
               GoRoute(
                 path: AppRouteName.home,
-                builder: (context, state) => const HomePage(),
+                builder: (context, state) =>  HomePage(),
               ),
             ],
           ),

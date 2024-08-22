@@ -44,7 +44,7 @@ class HomePageMapCardWidget extends StatelessWidget {
                 padding: REdgeInsets.all(16),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  // mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
                       stadiumModel.name ?? "Unknow",
@@ -77,7 +77,6 @@ class HomePageMapCardWidget extends StatelessWidget {
                         fontFamily: 'Gilroy-SemiBold',
                       ),
                     ),
-                    6.verticalSpace,
                     MaterialButton(
                       height: 36.h,
                       elevation: 0,
