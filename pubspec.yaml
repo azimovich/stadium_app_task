@@ -16,7 +16,7 @@ dependencies:
   # design
   shimmer: ^3.0.0
   enefty_icons: ^1.0.7
-  device_preview: ^1.2.0
+  # device_preview: ^1.2.0
   cupertino_icons: ^1.0.6
   flutter_screenutil: ^5.9.3
 
