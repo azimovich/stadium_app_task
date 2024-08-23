@@ -4,9 +4,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:stadium_app_task/setup.dart';
 import 'package:stadium_app_task/src/core/style/app_colors.dart';
-import 'package:stadium_app_task/src/core/widget/app_material_context.dart';
 import 'package:stadium_app_task/src/feature/main/view/widgets/home_page_map_card_widget.dart';
 import 'package:stadium_app_task/src/feature/main/view_model/home_vm.dart';
+import 'package:stadium_app_task/src/feature/setting/inherted_theme_notifair.dart';
 import 'package:yandex_mapkit/yandex_mapkit.dart';
 
 class HomePageMap extends ConsumerStatefulWidget {
@@ -45,7 +45,7 @@ class _HomePageMapState extends ConsumerState<HomePageMap> with SingleTickerProv
                       ctr.closeFloatingActionButton();
                     }
                   },
-                  nightModeEnabled: !themeController.isLight,
+                  nightModeEnabled: InheritedThemeNotifier.maybeOf(context)!.isDark,
                   mapObjects: ctr.mapObjectList,
                   onMapCreated: ctr.onMapCreated,
                 ),

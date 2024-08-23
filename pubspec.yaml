@@ -14,10 +14,11 @@ dependencies:
     sdk: flutter
 
   # design
+  shimmer: ^3.0.0
   enefty_icons: ^1.0.7
+  device_preview: ^1.2.0
   cupertino_icons: ^1.0.6
   flutter_screenutil: ^5.9.3
-  device_preview: ^1.2.0
 
   # storage
   shared_preferences: ^2.3.2
@@ -39,8 +40,8 @@ dependencies:
   # flutter_svg
   flutter_svg: ^2.0.10+1
 
-  permission_handler: ^11.3.0
-  shimmer: ^3.0.0
+  # check connection
+  connectivity_plus: ^3.0.3
 
 dev_dependencies:
   flutter_test:

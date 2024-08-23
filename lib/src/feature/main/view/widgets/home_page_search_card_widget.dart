@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:stadium_app_task/src/core/constants/context_extension.dart';
 import 'package:stadium_app_task/src/core/style/app_colors.dart';
 import 'package:stadium_app_task/src/data/model/stadium_model.dart';
 
@@ -12,9 +13,9 @@ class HomePageSearchCardWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: AppColors.white,
+        color: context.theme.colorScheme.primaryContainer,
         borderRadius: BorderRadius.circular(12.r),
-        border: Border.all(color: AppColors.cEDEDED, width: 1.w),
+        border: Border.all(color: context.theme.colorScheme.outline, width: 1.w),
       ),
       child: Row(
         children: [
@@ -44,13 +45,15 @@ class HomePageSearchCardWidget extends StatelessWidget {
                   child: Container(
                     padding: REdgeInsets.symmetric(horizontal: 8, vertical: 4),
                     decoration: BoxDecoration(
-                      color: stadiumModel.isAvailable == true ? AppColors.c00AA5B : AppColors.cFFDA69,
+                      color: stadiumModel.isAvailable == true
+                          ? context.theme.colorScheme.secondaryContainer
+                          : context.theme.colorScheme.surfaceContainer,
                       borderRadius: BorderRadius.circular(16.r),
                     ),
                     child: Text(
                       stadiumModel.isAvailable == true ? 'Working' : "Closed",
                       style: TextStyle(
-                        color: stadiumModel.isAvailable == true ? AppColors.white : AppColors.c4D3D0F,
+                        color: stadiumModel.isAvailable == true ? AppColors.white : context.theme.colorScheme.onSurfaceVariant,
                         fontSize: 14.sp,
                         fontWeight: FontWeight.bold,
                         fontFamily: 'Gilroy-Regular',
@@ -75,7 +78,7 @@ class HomePageSearchCardWidget extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       fontSize: 16.sp,
                       fontWeight: FontWeight.w400,
-                      color: AppColors.c181725,
+                      color: context.theme.colorScheme.onSecondary,
                       fontFamily: 'Gilroy-Bold',
                     ),
                   ),
@@ -86,7 +89,7 @@ class HomePageSearchCardWidget extends StatelessWidget {
                     style: TextStyle(
                       fontWeight: FontWeight.w400,
                       fontSize: 14.sp,
-                      color: AppColors.cB2B2B2,
+                      color: context.theme.colorScheme.onSecondaryFixed,
                       fontFamily: 'Gilroy-SemiBold',
                     ),
                   ),
@@ -96,7 +99,7 @@ class HomePageSearchCardWidget extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 16.sp,
                       fontWeight: FontWeight.w400,
-                      color: AppColors.c2AA64C,
+                      color: context.theme.colorScheme.primary,
                       fontFamily: 'Gilroy-SemiBold',
                     ),
                   ),
@@ -114,7 +117,9 @@ class HomePageSearchCardWidget extends StatelessWidget {
                           minWidth: MediaQuery.of(context).size.width * 0.34,
                           // minWidth: double.infinity,
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.r)),
-                          color: stadiumModel.isAvailable == true ? AppColors.c2AA64C : AppColors.cB2B2B2,
+                          color: stadiumModel.isAvailable == true
+                              ? context.theme.colorScheme.primary
+                              : context.theme.colorScheme.onSecondaryFixed,
                           onPressed: () {},
                           child: Text(
                             'Book now!',
@@ -132,7 +137,7 @@ class HomePageSearchCardWidget extends StatelessWidget {
                           width: 36.w,
                           child: DecoratedBox(
                             decoration: BoxDecoration(
-                              color: AppColors.cF7F7F7,
+                              color: context.theme.colorScheme.secondary,
                               borderRadius: BorderRadius.circular(10.r),
                             ),
                             child: Padding(
@@ -153,4 +158,3 @@ class HomePageSearchCardWidget extends StatelessWidget {
     );
   }
 }
-

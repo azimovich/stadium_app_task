@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:stadium_app_task/src/core/constants/context_extension.dart';
 import 'package:stadium_app_task/src/core/style/app_colors.dart';
 import 'package:stadium_app_task/src/data/model/stadium_model.dart';
 
@@ -13,9 +14,9 @@ class HomePageMapCardWidget extends StatelessWidget {
       height: 180.h,
       child: DecoratedBox(
         decoration: BoxDecoration(
-          color: AppColors.white,
+          color: context.theme.colorScheme.primaryContainer,
           borderRadius: BorderRadius.circular(12.r),
-          border: Border.all(color: AppColors.cEDEDED, width: 1.w),
+          border: Border.all(color: context.theme.colorScheme.outline, width: 1.w),
         ),
         child: Row(
           children: [
@@ -63,7 +64,7 @@ class HomePageMapCardWidget extends StatelessWidget {
                       style: TextStyle(
                         fontWeight: FontWeight.w400,
                         fontSize: 14.sp,
-                        color: AppColors.cB2B2B2,
+                        color: context.theme.colorScheme.secondaryFixed,
                         fontFamily: 'Gilroy-SemiBold',
                       ),
                     ),
@@ -73,7 +74,7 @@ class HomePageMapCardWidget extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 16.sp,
                         fontWeight: FontWeight.w400,
-                        color: AppColors.c2AA64C,
+                           color: context.theme.colorScheme.primary,
                         fontFamily: 'Gilroy-SemiBold',
                       ),
                     ),
@@ -82,7 +83,7 @@ class HomePageMapCardWidget extends StatelessWidget {
                       elevation: 0,
                       highlightElevation: 0,
                       minWidth: double.infinity,
-                      color: AppColors.c2AA64C,
+                      color: context.theme.colorScheme.primary,
                       padding: EdgeInsets.zero,
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.r)),
                       onPressed: () {},

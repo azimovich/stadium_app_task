@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:go_router/go_router.dart';
 import 'package:stadium_app_task/src/data/model/stadium_model.dart';
@@ -12,7 +13,6 @@ final homeVM = ChangeNotifierProvider((ref) => HomeVm());
 
 // Fechting data
 final homeFetchData = FutureProvider((ref) async {
-  // ref.read(homeVM).initial();
   ref.read(homeVM).getStadiumList();
 });
 
@@ -25,12 +25,12 @@ class HomeVm with ChangeNotifier {
 
   // HomePageMap Varibles
   late Position myPosition;
+  late Animation<double> animation;
   List<MapObject> mapObjectList = [];
   bool isFloatactionButtonVisibility = true;
   StadiumModel stadiumModel = StadiumModel();
   late YandexMapController yandexMapController;
   late AnimationController animationController;
-  late Animation<double> animation;
 
   // Uzbekistan Latitude and longitude
   final double uzbLatitude = 41.311081;
@@ -61,7 +61,6 @@ class HomeVm with ChangeNotifier {
   /// Method that works when the map is first created
   void onMapCreated(YandexMapController controller) {
     yandexMapController = controller;
-
     yandexMapController.moveCamera(
       CameraUpdate.newCameraPosition(
         CameraPosition(
@@ -73,17 +72,6 @@ class HomeVm with ChangeNotifier {
         ),
       ),
     );
-
-    // yandexMapController.moveCamera(
-    //   CameraUpdate.newCameraPosition(
-    //     CameraPosition(
-    //       target: Point(latitude: myPosition.latitude, longitude: myPosition.longitude),
-    //       zoom: 15,
-    //       tilt: 10,
-    //       azimuth: 0,
-    //     ),
-    //   ),
-    // );
   }
 
   /// Method that determines user location
@@ -113,31 +101,6 @@ class HomeVm with ChangeNotifier {
     });
   }
 
-  /// go live
-  Future<void> goLive() async {
-    Geolocator.getPositionStream(
-      locationSettings: const LocationSettings(
-          // distanceFilter: 5,
-          // timeLimit: Duration(seconds: 5)
-          ),
-    ).listen((event) {
-      yandexMapController.moveCamera(
-        CameraUpdate.newCameraPosition(
-          CameraPosition(
-            target: Point(latitude: event.latitude, longitude: event.longitude),
-            zoom: 20,
-          ),
-        ),
-        animation: const MapAnimation(type: MapAnimationType.smooth),
-      );
-      // putLabel(lan: event.latitude, lon: event.longitude, id: event.longitude.toString());
-      mapObjectList.removeRange(1, mapObjectList.length);
-      // setState(() {});
-      debugPrint(event.latitude.toString());
-      debugPrint(event.longitude.toString());
-    });
-  }
-
   /// A method that returns location after determining whether location is allowed in the application
   Future<Position> determinePosition() async {
     bool serviceEnabled;
@@ -161,6 +124,23 @@ class HomeVm with ChangeNotifier {
     }
 
     myPosition = await Geolocator.getCurrentPosition();
+
+    if (mapObjectList.whereType<PlacemarkMapObject>().last.mapId.value == "user") {
+      mapObjectList.removeLast();
+      putLabel(
+        lan: myPosition.latitude,
+        lon: myPosition.longitude,
+        id: 'user',
+        imgPath: "assets/img/dot.png",
+      );
+    } else {
+      putLabel(
+        lan: myPosition.latitude,
+        lon: myPosition.longitude,
+        id: 'user',
+        imgPath: "assets/img/dot.png",
+      );
+    }
 
     notifyListeners();
     return myPosition;
@@ -254,7 +234,8 @@ class HomeVm with ChangeNotifier {
     notifyListeners();
   }
 
-  void changeTab(int value) {
+  Future<void> changeTab(int value) async {
+    await Future.delayed(const Duration(milliseconds: 200));
     currextTabIndex = value;
     notifyListeners();
   }
@@ -264,7 +245,10 @@ class HomeVm with ChangeNotifier {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          content: const Text("To continue, enable geolocation on your device, which uses Google's location service"),
+          content: Text(
+            "To continue, enable geolocation on your device, which uses Google's location service",
+            style: TextStyle(fontSize: 16.sp),
+          ),
           actions: [
             TextButton(
               onPressed: () => context.pop(),

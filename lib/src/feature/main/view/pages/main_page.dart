@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:stadium_app_task/src/core/style/app_colors.dart';
+import 'package:stadium_app_task/src/core/constants/context_extension.dart';
 
 class MainPage extends StatefulWidget {
   final StatefulNavigationShell navigationShell;
@@ -28,7 +28,6 @@ class _MainPageState extends State<MainPage> {
       bottomNavigationBar: ClipRRect(
         borderRadius: BorderRadius.only(topLeft: Radius.circular(15.r), topRight: Radius.circular(15.r)),
         child: BottomNavigationBar(
-          backgroundColor: Colors.white,
           onTap: (value) {
             setState(() {
               currentIndex = value;
@@ -36,8 +35,18 @@ class _MainPageState extends State<MainPage> {
             nextBranch(currentIndex);
           },
           useLegacyColorScheme: false,
-          selectedLabelStyle: TextStyle(fontWeight: FontWeight.w400, fontSize: 12.sp, fontFamily: 'Gilroy', color: AppColors.c2AA64C),
-          unselectedLabelStyle: TextStyle(fontWeight: FontWeight.w400, fontSize: 12.sp, fontFamily: 'Gilroy', color: AppColors.c181725),
+          selectedLabelStyle: TextStyle(
+            fontWeight: FontWeight.w400,
+            fontSize: 12.sp,
+            fontFamily: 'Gilroy',
+            color: context.theme.colorScheme.primary,
+          ),
+          unselectedLabelStyle: TextStyle(
+            fontWeight: FontWeight.w400,
+            fontSize: 12.sp,
+            fontFamily: 'Gilroy',
+            color: context.theme.colorScheme.onSecondary,
+          ),
           elevation: 0,
           currentIndex: currentIndex,
           items: [
@@ -47,13 +56,13 @@ class _MainPageState extends State<MainPage> {
                 'assets/img/stadium.png',
                 height: 20,
                 width: 25,
-                color: AppColors.c181725,
+                color: context.theme.colorScheme.onSecondary,
               ),
               activeIcon: Image.asset(
                 'assets/img/stadium.png',
                 height: 20,
                 width: 25,
-                color: AppColors.c2AA64C,
+                color: context.theme.colorScheme.primary,
               ),
             ),
             BottomNavigationBarItem(
@@ -62,13 +71,13 @@ class _MainPageState extends State<MainPage> {
                 'assets/img/bookmark.png',
                 height: 20,
                 width: 23,
-                color: AppColors.c181725,
+                color: context.theme.colorScheme.onSecondary,
               ),
               activeIcon: Image.asset(
                 'assets/img/bookmark.png',
                 height: 20,
                 width: 23,
-                color: AppColors.c2AA64C,
+                color: context.theme.colorScheme.primary,
               ),
             ),
             BottomNavigationBarItem(
@@ -77,13 +86,13 @@ class _MainPageState extends State<MainPage> {
                 'assets/img/profile.png',
                 height: 20,
                 width: 16,
-                color: AppColors.c181725,
+                color: context.theme.colorScheme.onSecondary,
               ),
               activeIcon: Image.asset(
                 'assets/img/profile.png',
                 height: 20,
                 width: 16,
-                color: AppColors.c2AA64C,
+                color: context.theme.colorScheme.primary,
               ),
             ),
           ],

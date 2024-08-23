@@ -13,24 +13,48 @@ final class AppTheme {
       : darkTheme = ThemeData(
           brightness: Brightness.dark,
           colorScheme: darkColorScheme,
-          scaffoldBackgroundColor: Colors.black,
+          scaffoldBackgroundColor: const Color(0xff1B2430),
+          appBarTheme: const AppBarTheme(
+            backgroundColor: Color(0xff182747),
+          ),
+          bottomAppBarTheme: const BottomAppBarTheme(
+            color: Color(0xff182747),
+          ),
         ),
         ligthTheme = ThemeData(
           brightness: Brightness.light,
           colorScheme: lightColorScheme,
           scaffoldBackgroundColor: Colors.white,
+          appBarTheme: const AppBarTheme(
+            backgroundColor: Colors.white,
+          ),
+          bottomAppBarTheme: const BottomAppBarTheme(
+            color: Colors.white,
+          ),
         );
 
   static ThemeData dark() => ThemeData(
         brightness: Brightness.dark,
         colorScheme: darkColorScheme,
-        scaffoldBackgroundColor: Colors.black,
+        scaffoldBackgroundColor: const Color(0xff1B2430),
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Color(0xff182747),
+        ),
+        bottomAppBarTheme: const BottomAppBarTheme(
+          color: Color(0xff182747),
+        ),
       );
 
   static ThemeData light() => ThemeData(
         brightness: Brightness.light,
         colorScheme: lightColorScheme,
         scaffoldBackgroundColor: Colors.white,
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Colors.white,
+        ),
+        bottomAppBarTheme: const BottomAppBarTheme(
+          color: Colors.white,
+        ),
       );
 
   ThemeData computeTheme() {
