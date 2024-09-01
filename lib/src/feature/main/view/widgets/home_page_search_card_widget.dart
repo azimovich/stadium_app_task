@@ -34,7 +34,7 @@ class HomePageSearchCardWidget extends StatelessWidget {
                       bottomLeft: Radius.circular(12.r),
                     ),
                     child: Image.network(
-                      stadiumModel.image ?? 'https://i.ibb.co/khh3NYM/image.png',
+                      stadiumModel.image ?? "https://www.freeiconspng.com/thumbs/no-image-icon/no-image-icon-6.png",
                       fit: BoxFit.cover,
                     ),
                   ),

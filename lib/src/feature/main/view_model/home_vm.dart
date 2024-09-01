@@ -264,7 +264,8 @@ class HomeVm with ChangeNotifier {
               onPressed: () async {
                 // open device location setting
                 await Geolocator.openLocationSettings();
-                context.pop();
+                // context.pop();
+                Navigator.pop(context);
               },
               child: const Text(
                 'OK',
