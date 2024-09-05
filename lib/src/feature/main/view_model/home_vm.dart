@@ -251,7 +251,8 @@ class HomeVm with ChangeNotifier {
           ),
           actions: [
             TextButton(
-              onPressed: () => context.pop(),
+              // onPressed: () => context.pop(),
+              onPressed: () => Navigator.pop(context),
               child: const Text(
                 'No Thanks',
                 style: TextStyle(
